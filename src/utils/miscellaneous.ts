@@ -4,7 +4,7 @@ import { BadRequestException } from '@nestjs/common';
 import axios from 'axios';
 
 export class Miscellaneous {
-    async calculateDistance(lat1, lon1, lat2, lon2) {
+    calculateDistance(lat1, lon1, lat2, lon2) {
         const R = 6371; // Radius of the Earth in kilometers
         const dLat = (lat2 - lat1) * Math.PI / 180;  // Convert degrees to radians
         const dLon = (lon2 - lon1) * Math.PI / 180; 

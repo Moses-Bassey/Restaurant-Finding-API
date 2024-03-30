@@ -87,20 +87,24 @@ export class RestaurantsService {
     }
   }
 
-  async findNearbyRestaurants({city, latitude, longitude, radius}) {
+  async findNearbyRestaurants({latitude, longitude, radius, city}) {
     if (city) {
       const isNotInRestaurants = await this.isCityNotInRestaurants(city);
       if (isNotInRestaurants)
         throw new NotFoundException(`City not found!`);
-    }
 
-    const res =  restaurantStore.filter((restaurant) => {
+      return restaurantStore.filter((restaurant) => {
         const distance = this.micellaneous.calculateDistance(latitude, longitude, restaurant.latitude, restaurant.longitude);
-        return restaurant.city === city;
-    });
-
-    return res;
-  }
+        return distance <= radius && restaurant.city === city;
+      });
+      
+    } else {
+      return restaurantStore.filter((restaurant) => {
+        const distance = this.micellaneous.calculateDistance(latitude, longitude, restaurant.latitude, restaurant.longitude);
+        return distance <= radius;
+      });
+    }
+}
 
   async isCityNotInRestaurants (city){
     return restaurantStore.every((restaurant) => restaurant.city !== city);
