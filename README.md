@@ -5,7 +5,7 @@
 Unless you clone and install all necessary nodemodules then you can start the in memory Restuarant Finding API. Follow this link to consume API (https://documenter.getpostman.com/view/6985379/2sA35G42vg)
 
 
-Don't forget to setup .env file using .env.sample as a guide
+Don't forget to setup ```.env``` file using ```.env.sample``` as a guide
 
 ## Installation
 

@@ -18,6 +18,7 @@ const restaurantStore: IRestaurants[] = [
     latitude: 40.7112,
     longitude: -74.0055,
     city: "New York",
+    rating: 2,
     createdAt: new Date('2024-03-30T09:25:25.769Z'),
     updatedAt: new Date('2024-03-30T09:25:25.769Z'),
   },
@@ -31,7 +32,7 @@ export class RestaurantsService {
 
   async addRestaurant(reqBody: RestaurantsRequestDto)
   {
-    restaurantStore.push({...reqBody, id: restaurantStore.length + 1, createdAt: new Date(), updatedAt: new Date()});
+    restaurantStore.push({...reqBody, id: restaurantStore.length + 1, createdAt: new Date(), rating: 0, updatedAt: new Date()});
     return reqBody;
   }
 
