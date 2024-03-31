@@ -2,6 +2,7 @@ import { JwtService } from '@nestjs/jwt';
 import {
   BadGatewayException,
   BadRequestException,
+  ConflictException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -32,6 +33,11 @@ export class RestaurantsService {
 
   async addRestaurant(reqBody: RestaurantsRequestDto)
   {
+    const existingRestaurant = await this.findRestaurant(reqBody.name, reqBody.city);
+    
+    if(existingRestaurant !== null)
+      throw new ConflictException(`Restaurant ${reqBody.name} already exists`);
+
     restaurantStore.push({...reqBody, id: restaurantStore.length + 1, createdAt: new Date(), rating: 0, updatedAt: new Date()});
     return reqBody;
   }
@@ -86,6 +92,14 @@ export class RestaurantsService {
       if (restaurantStore[i].id == resturantId)
         return restaurantStore[i]
     }
+  }
+
+  async findRestaurant(name: string, city: string) {
+    for(let i = 0; i < restaurantStore.length; i++) {
+      if (restaurantStore[i].name == name && restaurantStore[i].city == city)
+        return restaurantStore[i]
+    }
+    return null;
   }
 
   async findNearbyRestaurants({latitude, longitude, radius, city}) {
